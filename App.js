@@ -14,9 +14,10 @@ export default class App extends React.Component {
         zipcode : ZIP_CODE,
         days : [],
         forecast: {},
-        city: "12566",
-        cities: [{"name": "b"}, {"name": "124"}, {"name" : "aaa"}],
-        text: "Poland/Warsaw"
+        cities: [],
+        text: "Warsaw",
+        city: ""
+
     }
     this._getForecast = this._getForecast.bind(this)
     this._onPressMagicButton = this._onPressMagicButton.bind(this)
@@ -47,10 +48,10 @@ export default class App extends React.Component {
 
     axios.get(cities_url).then( (response)=> {
         if(response.status == 200){
-           /* var weather = response.data.forecast.simpleforecast.forecastday;
-            var forecast = [];*/
             console.log(response.data);
             this.setState({cities: _.get(response.data, 'RESULTS')});
+            this.setState({city: _.head(this.state.cities)})
+            this._getForecast(this.state.city)
         }
 
     });
@@ -66,21 +67,21 @@ export default class App extends React.Component {
         {/* <Text>{JSON.stringify(this.state.forecast, null, 2)}</Text> */}
         <TextInput
           style={{height: 40, width: 300, backgroundColor: '#ffffff', borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(text) => this.setState({text})}
+          onChangeText={(text) => {this.setState({text}); this._onPressMagicButton2()}}
           value={this.state.text}
         />
 
-        <Button
+        {/* <Button
           onPress={this._onPressMagicButton2}
           title="POKA MI MIASTA"
           color="#841584"
-        ></Button>
+        ></Button> */}
 
 
         <Picker
           style={{height: 100, width: 300}}
           selectedValue={this.state.city}
-          onValueChange={(itemValue, itemIndex) => this.setState({city: itemValue})}>
+          onValueChange={(itemValue, itemIndex) => {this.setState({city: itemValue}); this._getForecast(itemValue)}}>
           {this.state.cities.map(function(object, i){
             return <Picker.Item label={object['name']} value={object['l']} />;
           })}
@@ -88,12 +89,12 @@ export default class App extends React.Component {
 
         </Picker>
 
-        <Button
+        {/* <Button
           onPress={this._onPressMagicButton}
           title="POKA MI POGODE"
           color="#841584"
-        ></Button>
-        <Text style={styles.temperature}>{"Pogoda dla "}{this.state.text}</Text>
+        ></Button> */}
+        <Text style={styles.temperature}>{"Pogoda dla "}{_.get(_.find(this.state.cities, {'l': this.state.city}), 'name')}</Text>
         <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius')} { "stopni max" }</Text>
         <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].low.celsius')} { "stopni min" }</Text>
         <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.kph')} { " siła wiatru" }</Text>
