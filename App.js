@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, Image, Button, Picker } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, Button, Picker, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -22,6 +22,7 @@ export default class App extends React.Component {
     this._getForecast = this._getForecast.bind(this)
     this._onPressMagicButton = this._onPressMagicButton.bind(this)
     this._onPressMagicButton2 = this._onPressMagicButton2.bind(this)
+    this._getBackground = this._getBackground.bind(this)
 
     this._onPressMagicButton2();
 
@@ -59,13 +60,28 @@ export default class App extends React.Component {
     });
   }
 
+  _getBackground(){
+    var bg = {
+      'rain' : 'http://www.wallpaper-mobile.com/free_download/360_640_wallpapers/11201321/B/B_rain_GoGELIJN.jpg',
+      'sun'  : 'https://lh5.ggpht.com/YFXiJCmVDmZW8oZIib6d_ZWKG1pFF6_F3un0EdY3F0bBb2n1Z8K5Kvqx5i2HeQOE8Jo=h900',
+      'default' : 'https://s-media-cache-ak0.pinimg.com/736x/2a/24/74/2a24740658e1910bcfedbbdd83098c4e--wallpaper-mobile-mobile-wallpapers.jpg'
+
+
+    }
+    if (_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius') > 25) {
+     return bg['sun']
+    }
+    return bg['default']
+  }
+
   render() {
     return (
         <Image
-          source={{uri: "https://s-media-cache-ak0.pinimg.com/736x/2a/24/74/2a24740658e1910bcfedbbdd83098c4e--wallpaper-mobile-mobile-wallpapers.jpg"}}
+          source={{uri: this._getBackground()}}
           style={styles.backgroundImage} >
 
-          {/* <Text>{JSON.stringify(this.state.forecast, null, 2)}</Text> */}
+
+
           <TextInput
             style={{height: 50, width: 300, backgroundColor: '#ffffff', opacity: 0.8, padding: 10}}
             onChangeText={(text) => {this.setState({text}); this._onPressMagicButton2()}}
@@ -76,31 +92,31 @@ export default class App extends React.Component {
           <Picker
             style={{height: 50, width: 300, backgroundColor: '#ffffff', opacity: 0.8, padding: 10}}
             selectedValue={this.state.city}
-            onValueChange={(itemValue, itemIndex) => {this.setState({city: itemValue}); this._getForecast(itemValue)}}>
-            {this.state.cities.map(function(object, i){
-              return <Picker.Item label={object['name']} value={object['l']} key={i}/>;
-            })}
+            onValueChange={(itemValue, itemIndex) => {this.setState({city: itemValue}); this._getForecast(itemValue); Keyboard.dismiss()}}>
+              {this.state.cities.map(function(object, i){
+                return <Picker.Item label={object['name']} value={object['l']} key={i}/>;
+              })}
 
 
-          </Picker>
+            </Picker>
 
 
-          <Text style={styles.temperature}>{"Pogoda dla "}{_.get(_.find(this.state.cities, {'l': this.state.city}), 'name')}</Text>
-          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius')} { "stopni max" }</Text>
-          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].low.celsius')} { "stopni min" }</Text>
-          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.kph')} { " siła wiatru" }</Text>
-          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.dir')} { " kierunek wiatru" }</Text>
-          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].conditions')} </Text>
+            <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius')} { "stopni max" }</Text>
+            <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].low.celsius')} { "stopni min" }</Text>
+            <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.kph')} { " siła wiatru" }</Text>
+            <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.dir')} { " kierunek wiatru" }</Text>
+            <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].conditions')} </Text>
 
 
 
 
-          <Image
-            style={{width: 100, height: 100}}
-            source={{uri: _.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].icon_url')}}
-          />
-          <Text>{"She says: "} {this.state.text} </Text>
-      </Image>
+            <Image
+              style={{width: 100, height: 100}}
+              source={{uri: _.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].icon_url')}}
+            />
+            <Text>{"She says: "} {this.state.text} </Text>
+
+        </Image>
 
     );
   }
