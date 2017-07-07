@@ -25,6 +25,7 @@ export default class App extends React.Component {
     this._getBackground = this._getBackground.bind(this)
 
     this._onPressMagicButton2();
+    this._getForecast("12566");
 
   }
   _getForecast(zipcode){
@@ -108,20 +109,29 @@ export default class App extends React.Component {
 
           </Picker>
 
+          <View style={styles.weath}>
+                                 <Image style={{width: 100, height: 100}} source={{uri: _.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].icon_url')}}/>
+                  <Text>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].conditions')}</Text>
+                  <Text >{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius')} </Text>
+                  <Text >{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].low.celsius')} </Text>
+                         <Text>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.kph')} </Text>
+                              <Text>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.dir')} </Text>
 
-          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius')} { "stopni max" }</Text>
-          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].low.celsius')} { "stopni min" }</Text>
-          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.kph')} { " siła wiatru" }</Text>
-          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.dir')} { " kierunek wiatru" }</Text>
-          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].conditions')} </Text>
+
+
+          </View>
+      <View style={styles.weath}>
+                                      <Image style={{width: 100, height: 100}} source={{uri: _.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].icon_url')}}/>
+                       <Text>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].conditions')}</Text>
+                       <Text >{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].high.celsius')} </Text>
+                       <Text >{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].low.celsius')} </Text>
+                              <Text>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].avewind.kph')} </Text>
+                                   <Text>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].avewind.dir')} </Text>
 
 
 
+               </View>
 
-            <Image
-              style={{width: 100, height: 100}}
-              source={{uri: _.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].icon_url')}}
-            />
             <Text>{"She says: "} {this.state.text} </Text>
 
         </Image>
@@ -141,6 +151,16 @@ const styles = StyleSheet.create({
     fontSize: 30,
 
   },
+  weath : {
+    marginTop:10,
+    width:200,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    opacity: 0.8,
+    backgroundColor: '#fff'
+  },
+
   backgroundImage: {
     alignItems: 'center',
     justifyContent: 'center',
