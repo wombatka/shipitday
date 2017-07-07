@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, Button } from 'react-native';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -13,9 +13,11 @@ export default class App extends React.Component {
     this.state = {
         zipcode : ZIP_CODE,
         days : [],
-        forecast: {}
+        forecast: {},
+        text: "I'm reterded."
     }
     this._getForecast = this._getForecast.bind(this)
+    this._onPressMagicButton = this._onPressMagicButton.bind(this)
 
   }
   _getForecast(zipcode){
@@ -32,19 +34,36 @@ export default class App extends React.Component {
 
     });
   }
-  render() {
-    if(this.state.days.length<=0){
-        this._getForecast(this.state.zipcode)
 
-    }
+  _onPressMagicButton() {
+    this._getForecast(this.state.text)
+  }
+
+  render() {
+    // if(this.state.days.length<=0){
+    //     this._getForecast(this.state.zipcode)
+    //
+    // }
     return (
       <View style={styles.container}>
         {/* <Text>{JSON.stringify(this.state.forecast, null, 2)}</Text> */}
+        <TextInput
+          style={{height: 40, width: 300, backgroundColor: '#ffffff', borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
+        />
+        <Button
+          onPress={this._onPressMagicButton}
+          title="POKA MI POGODE"
+          color="#841584"
+        ></Button>
+
         <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius')} { "stopni xd " }</Text>
         <Image
           style={{width: 100, height: 100}}
           source={{uri: _.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].icon_url')}}
         />
+        <Text>{"She says: "} {this.state.text} </Text>
       </View>
     );
   }
