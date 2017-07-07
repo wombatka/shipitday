@@ -54,7 +54,8 @@ export default class App extends React.Component {
             console.log(response.data);
             this.setState({cities: _.get(response.data, 'RESULTS')});
             this.setState({city: _.get(_.head(this.state.cities), 'l')});
-            this._getForecast(this.state.city)
+
+
         }
 
     });
@@ -64,13 +65,20 @@ export default class App extends React.Component {
     var bg = {
       'rain' : 'http://www.wallpaper-mobile.com/free_download/360_640_wallpapers/11201321/B/B_rain_GoGELIJN.jpg',
       'sun'  : 'https://lh5.ggpht.com/YFXiJCmVDmZW8oZIib6d_ZWKG1pFF6_F3un0EdY3F0bBb2n1Z8K5Kvqx5i2HeQOE8Jo=h900',
+      'overcast'  : 'http://www.mobileswall.com/wp-content/uploads/2013/11/640-Clouds-Artwork-l.jpg',
+      'thunder'  : 'http://cdn8.staztic.com/app/a/1081/1081522/thunderstorm-wallpaper-hd-429171-0-s-307x512.jpg',
+
       'default' : 'https://s-media-cache-ak0.pinimg.com/736x/2a/24/74/2a24740658e1910bcfedbbdd83098c4e--wallpaper-mobile-mobile-wallpapers.jpg'
 
 
     }
     if (_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius') > 25) {
      return bg['sun']
-    }
+   } else if (_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].conditions') == "Overcast") {
+     return bg['overcast']
+   } else if (_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].conditions') == "Thunderstorm") {
+     return bg['thunder']
+   }
     return bg['default']
   }
 
@@ -92,20 +100,20 @@ export default class App extends React.Component {
           <Picker
             style={{height: 50, width: 300, backgroundColor: '#ffffff', opacity: 0.8, padding: 10}}
             selectedValue={this.state.city}
-            onValueChange={(itemValue, itemIndex) => {this.setState({city: itemValue}); this._getForecast(itemValue); Keyboard.dismiss()}}>
-              {this.state.cities.map(function(object, i){
-                return <Picker.Item label={object['name']} value={object['l']} key={i}/>;
-              })}
+            onValueChange={(itemValue, itemIndex) => {this.setState({city: itemValue}); this._getForecast(itemValue);}}>
+            {this.state.cities.map(function(object, i){
+              return <Picker.Item label={object['name']} value={object['l']} key={i}/>;
+            })}
 
 
-            </Picker>
+          </Picker>
 
 
-            <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius')} { "stopni max" }</Text>
-            <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].low.celsius')} { "stopni min" }</Text>
-            <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.kph')} { " siła wiatru" }</Text>
-            <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.dir')} { " kierunek wiatru" }</Text>
-            <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].conditions')} </Text>
+          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius')} { "stopni max" }</Text>
+          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].low.celsius')} { "stopni min" }</Text>
+          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.kph')} { " siła wiatru" }</Text>
+          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.dir')} { " kierunek wiatru" }</Text>
+          <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].conditions')} </Text>
 
 
 
