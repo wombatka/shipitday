@@ -23,6 +23,8 @@ export default class App extends React.Component {
     this._onPressMagicButton = this._onPressMagicButton.bind(this)
     this._onPressMagicButton2 = this._onPressMagicButton2.bind(this)
 
+    this._onPressMagicButton2();
+
   }
   _getForecast(zipcode){
 
@@ -50,7 +52,7 @@ export default class App extends React.Component {
         if(response.status == 200){
             console.log(response.data);
             this.setState({cities: _.get(response.data, 'RESULTS')});
-            this.setState({city: _.head(this.state.cities)})
+            this.setState({city: _.get(_.head(this.state.cities), 'l')});
             this._getForecast(this.state.city)
         }
 
