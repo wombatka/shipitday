@@ -112,10 +112,11 @@ export default class App extends React.Component {
           <View style={styles.weath}>
                                  <Image style={{width: 100, height: 100}} source={{uri: _.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].icon_url')}}/>
                   <Text>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].conditions')}</Text>
-                  <Text >{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius')} </Text>
-                  <Text >{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].low.celsius')} </Text>
-                         <Text>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.kph')} </Text>
-                              <Text>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.dir')} </Text>
+                 <Text >{"Max temp: "}{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].high.celsius')} </Text>
+                                       <Text >{"Min temp: "}{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].low.celsius')} </Text>
+                                              <Text>{"Wind speed: "}{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].avewind.kph')} </Text>
+                                                   <Text>{"Wind direction: "}{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].avewind.dir')} </Text>
+
 
 
 
@@ -123,10 +124,10 @@ export default class App extends React.Component {
       <View style={styles.weath}>
                                       <Image style={{width: 100, height: 100}} source={{uri: _.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].icon_url')}}/>
                        <Text>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].conditions')}</Text>
-                       <Text >{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].high.celsius')} </Text>
-                       <Text >{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].low.celsius')} </Text>
-                              <Text>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].avewind.kph')} </Text>
-                                   <Text>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].avewind.dir')} </Text>
+                       <Text >{"Max temp: "}{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].high.celsius')} </Text>
+                       <Text >{"Min temp: "}{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].low.celsius')} </Text>
+                              <Text>{"Wind speed: "}{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].avewind.kph')} </Text>
+                                   <Text>{"Wind direction: "}{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[1].avewind.dir')} </Text>
 
 
 
