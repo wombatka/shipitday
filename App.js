@@ -14,9 +14,9 @@ export default class App extends React.Component {
         zipcode : ZIP_CODE,
         days : [],
         forecast: {},
-        text: "I'm reterded.",
         city: "12566",
-        cities: [{"name": "b"}, {"name": "124"}, {"name" : "aaa"}]
+        cities: [{"name": "b"}, {"name": "124"}, {"name" : "aaa"}],
+        text: "Poland/Warsaw"
     }
     this._getForecast = this._getForecast.bind(this)
     this._onPressMagicButton = this._onPressMagicButton.bind(this)
@@ -93,8 +93,16 @@ export default class App extends React.Component {
           title="POKA MI POGODE"
           color="#841584"
         ></Button>
+        <Text style={styles.temperature}>{"Pogoda dla "}{this.state.text}</Text>
+        <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius')} { "stopni max" }</Text>
+        <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].low.celsius')} { "stopni min" }</Text>
+        <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.kph')} { " siła wiatru" }</Text>
+        <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].avewind.dir')} { " kierunek wiatru" }</Text>
+        <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].conditions')} </Text>
 
-        <Text style={styles.temperature}>{_.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].high.celsius')} { "stopni xd " }</Text>
+
+
+
         <Image
           style={{width: 100, height: 100}}
           source={{uri: _.get(this.state.forecast, 'forecast.simpleforecast.forecastday[0].icon_url')}}
